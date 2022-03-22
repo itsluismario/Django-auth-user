@@ -18,7 +18,7 @@ class UserSignUpForm(UserCreationForm):
     email = forms.CharField(max_length=32,required=True, label=('Email'),
                            widget= forms.TextInput
                            (attrs={'type':'email','class':'form-control',
-				                   'name':'email','id':'signupSrEmail','placeholder':'rogerfederer@ejemplo.com',
+				                   'name':'email','id':'signupSrEmail','placeholder':'federer@ejemplo.com',
                                    'aria-label':'Federer@example.com','data-msg':'Please write your email.'}))
 
     password1 = forms.CharField(max_length=100,required=True,label=('Password'),
