@@ -6,13 +6,13 @@ class UserSignUpForm(UserCreationForm):
     first_name = forms.CharField(max_length=32,required=True, label=('Nombre'),
                            widget= forms.TextInput
                            (attrs={'type':'text','class':'form-control col-sm-6"',
-				                   'name':'firstName','id':'fullNameSrEmail','placeholder':'Carlos',
-                                   'aria-label':'Roger','data-msg':'Pon tu nombre.','autocomplete':'off'}))
+				                   'name':'fullName','id':'fullNameSrEmail','placeholder':'Carlos',
+                                   'aria-label':'Carlos','data-msg':'Pon tu nombre.','autocomplete':'off'}))
 
     last_name = forms.CharField(max_length=32,required=True, label=('Apellido'),
                            widget= forms.TextInput
                            (attrs={'type':'text','class':'form-control',
-				                   'name':'lastName','placeholder':'Federer',
+				                   'placeholder':'Federer',
                                    'aria-label':'Federer','data-msg':'Please write your last name.','autocomplete':'off'}))
 
     email = forms.CharField(max_length=32,required=True, label=('Email'),

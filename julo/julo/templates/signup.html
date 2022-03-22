@@ -74,38 +74,13 @@
           <div class="w-100 content-space-t-4 content-space-t-lg-2 content-space-b-1" style="max-width: 25rem;">
             <!-- Form -->
             {% if registered %}
-              <h1>Thank you for registering!</h1>
-            {% else %}
-            {% if errors %}
-
-            <div class="alert alert-primary d-flex" role="alert">
-              <div class="alert-icon">
-                <i class="ci-bell"></i>
-              </div>
-              <div>{{errors.errors}}</div>
-            </div>
+             <h1>Gracias por registrarte!</h1>
             {% endif %}
-            {% endif %}
-
-            {% if errors %}
-            <ul class="user-msg error">
-            {% for field in form %}
-                    {% for error in field.errors %}
-                        <li>
-                          {% if field != '__all__' %}
-                            <strong>{{ field.label }}:</strong>
-                          {% endif %}
-                          {{ error }}
-                        </li>
-                    {% endfor %}
-                {% endfor %}
-            </ul>
-    {% endif %}
 
             <div class="text-center">
               <div class="mb-5">
-                <h1 class="display-5">Create your account</h1>
-                <p>Already have an account? <a class="link" href="{% static 'authentication-login-cover.html' %}">Sign in here</a></p>
+                <h1 class="display-5">Crea tu cuenta</h1>
+                <p>Ya tienes una cuenta? <a class="link" href="{% static 'authentication-login-cover.html' %}">Inicia Aquí</a></p>
               </div>
             </div>
             <form method="POST"  class="js-validate needs-validation" novalidate>
@@ -116,12 +91,14 @@
               <!-- Form -->
 
               <div class="row">
+                
                 <div class="col-sm-6">
                   <!-- Form -->
                   <div class="mb-4">
                     {{ form.first_name }}
-                    <span class="invalid-feedback">Por favor pon tu nombre.</span>
+                      <small>{% if errors %}{{errors.first_name}}{% endif %}</small>
                   </div>
+                  
                   <!-- End Form -->
                 </div>
 
@@ -129,7 +106,7 @@
                   <!-- Form -->
                   <div class="mb-4">
                     {{ form.last_name }}
-                    <span class="invalid-feedback">Por favor pon tu apellido.</span>
+                    <small>{% if errors %}{{errors.last_name}}{% endif %}</small>
                   </div>
                   <!-- End Form -->
                 </div>
@@ -138,9 +115,8 @@
 
               <!-- Form -->
               <div class="mb-4">
-                <label class="form-label" for="signupSrEmail">Tu correo</label>
                 {{ form.email }}
-                <span class="invalid-feedback">Please enter a valid email address.</span>
+                <small>{% if errors %}{{errors.email}}{% endif %}</small>
               </div>
               <!-- End Form -->
 
@@ -150,10 +126,10 @@
 
                 <div class="input-group input-group-merge" data-hs-validation-validate-class>
                   {{ form.password1 }}
-
+                  
                 </div>
 
-                <span class="invalid-feedback">Tu contraseña es invalida. Por favor intenta de nuevo.</span>
+                <small>{% if errors %}{{errors.password1}}{% endif %}</small>
               </div>
               <!-- End Form -->
 
@@ -163,10 +139,9 @@
 
                 <div class="input-group input-group-merge" data-hs-validation-validate-class>
                   {{ form.password2 }}
-
                 </div>
-
-                <span class="invalid-feedback">Password does not match the confirm password.</span>
+                <small>{% if errors %}{{errors.password2}}{% endif %}</small>
+                
               </div>
               <!-- End Form -->
 
@@ -176,7 +151,7 @@
                 <label class="form-check-label" for="termsCheckbox">
                   Yo acepto <a href="#">los Terminos y Condiciones.</a>
                 </label>
-                <span class="invalid-feedback">Please accept our Terms and Conditions.</span>
+                <small>{% if errors %}{{errors.cc_myself}}{% endif %}</small>
               </div>
               <!-- End Form Check -->
 

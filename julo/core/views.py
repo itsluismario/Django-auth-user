@@ -35,10 +35,10 @@ def user_signup(request):
                 return redirect("/")
 
         else:
-            print(user_form.errors.as_ul)
+            print(user_form.errors.as_data())
             return render(request,'signup.html',{
                 'form':form,
-                'errors':user_form.errors.as_ul
+                'errors':user_form.errors
             })
 
 
