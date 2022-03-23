@@ -1,9 +1,34 @@
 from django.shortcuts import render
-
+from core.models import UserProfile
 # Create your views here.
 from django.contrib.auth import authenticate, logout as do_logout, login as do_login
-from core.forms import UserSignUpForm
+from core.forms import UserSignUpForm, UserLoginForm
 from django.shortcuts import redirect
+
+
+def user_login(request):
+
+    form = UserLoginForm()
+
+    # If the user is not log in send to "/"
+    if request.method == 'POST':
+        print("hola")
+        user = authenticate(username=request.POST['email'], password=request.POST['password'])
+
+        if user is not None:
+            do_login(request,user)
+            # Redirect to a success page.
+            return redirect("/home")
+        else:
+            print(user)
+            return render(request,'login.html',{
+                'form':form,
+                'errors': "El email/contraseña que introdujiste no son correctos."
+            })
+
+    return render(request,'login.html', {
+        'form': form
+        })
 
 
 def user_signup(request):
@@ -32,10 +57,9 @@ def user_signup(request):
                 userprofile = UserProfile.objects.create(user=user)
                 do_login(request, user, backend='django.contrib.auth.backends.ModelBackend')
                 # Redirect to a success page.
-                return redirect("/")
+                return redirect("/email_verificacition/")
 
         else:
-            print(user_form.errors.as_data())
             return render(request,'signup.html',{
                 'form':form,
                 'errors':user_form.errors
@@ -47,3 +71,6 @@ def user_signup(request):
     return render(request,"signup.html",{
         'form': form
     })
+
+def email_verification(request):
+    return render(request,"email_verification.html")

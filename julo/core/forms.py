@@ -45,3 +45,22 @@ class UserSignUpForm(UserCreationForm):
         if cd.get('password') != cd.get('password_confirm'):
             self.add_error('password_confirm', "passwords do not match !")
         return cd
+
+class UserLoginForm(forms.ModelForm):
+    email = forms.CharField(max_length=32,required=True,
+                               widget= forms.TextInput
+                               (attrs={'type':'email','class':'form-control',
+    				                   'name':'email','placeholder':'federer@ejemplo.com',
+                                       'aria-label':'federer@example.com','data-msg':'Correo inválido.'}))
+
+    password = forms.CharField(max_length=100,required=True,
+                           widget= forms.TextInput
+                           (attrs={'type':'password','class':'form-control','autocomplete':'off',
+				                   'name':'password','placeholder':'8+ caracteres requeridos',
+                                   'aria-label':'8+ caracteres requeridos',
+                                   'data-hs-toggle-password-options':'{"target": [".js-toggle-password-target-1", ".js-toggle-password-target-2"],"defaultClass": "tio-hidden-outlined","showClass": "tio-visible-outlined", "classChangeTarget": ".js-toggle-passowrd-show-icon-1"}'}))
+
+    # password = forms.CharField(widget=forms.PasswordInput())
+    class Meta():
+        model = User
+        fields = ('email','password')
