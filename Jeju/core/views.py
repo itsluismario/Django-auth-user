@@ -102,3 +102,4 @@ def index(request):
     return render(request,'dashboard.html', {
         'login_user': login_user,
     })
+
