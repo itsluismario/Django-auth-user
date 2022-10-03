@@ -64,3 +64,19 @@ class UserLoginForm(forms.ModelForm):
     class Meta():
         model = User
         fields = ('email','password')
+
+
+from django.contrib.auth.forms import PasswordResetForm
+
+class UserPasswordResetForm(PasswordResetForm):
+    def __init__(self, *args, **kwargs):
+        super(UserPasswordResetForm, self).__init__(*args, **kwargs)
+
+    email = forms.EmailField(label='', widget=forms.EmailInput(attrs={
+        'class': 'form-control',
+        'placeholder': 'Email',
+        'type': 'email',
+        'name': 'email',
+        'data-msg':'Correo inválido.'
+        }))
+

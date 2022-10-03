@@ -92,8 +92,6 @@ def email_verification(request):
 
 
 
-
-
 """"""""""""
 """Index"""
 """"""""""""

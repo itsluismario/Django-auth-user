@@ -133,13 +133,17 @@ AUTH_USER_MODEL = 'core.User'
 # AUTHENTICATION_BACKENDS
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
+    
     )
 
 #gmail_send/settings.py
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'holaluismario@gmail.com'
-EMAIL_HOST_PASSWORD = 'vhnsxuosrxuaoefd' #past the key or password app here
+EMAIL_HOST_PASSWORD = 'gnqvrncvwoaxdnbd' #past the key or password app here
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'default from email'
+
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
