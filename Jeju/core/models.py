@@ -2,7 +2,6 @@ from django.db import models
 
 # Create your models here.
 from django.conf import settings
-from django.contrib.auth.models import User
 from django.contrib.auth.models import AbstractUser
 
 
@@ -23,7 +22,7 @@ class UserProfile(models.Model):
         return f"user: {self.User.username}"
 
 class Supplier(models.Model):
-    Builder = models.ForeignKey(UserProfile, verbose_name="Builder", related_name="BuilderContact", on_delete=models.CASCADE)
+    Builder = models.ManyToManyField(UserProfile)
     CompanyName = models.CharField(max_length=50, verbose_name="Company name")
     Token = models.CharField(max_length=50, blank=True, null=True)
     FirstName = models.CharField(max_length=50, verbose_name="First name")
@@ -32,36 +31,63 @@ class Supplier(models.Model):
     PhoneNumber = models.IntegerField(verbose_name="Phone number", blank=True, null=True)
 
     def __str__(self):
-        return f"user: {self.Supplier.CompanyName}"
+        return f"user: {self.CompanyName}"
 
 class Project(models.Model):
-    Builder = models.ForeignKey(UserProfile, verbose_name="Builder", related_name="BuilderContact", on_delete=models.CASCADE)
+    Builder = models.ForeignKey(UserProfile, verbose_name="Builder", on_delete=models.CASCADE)
     ProjectName = models.CharField(max_length=50, verbose_name="Project name")
     Created = models.DateTimeField(verbose_name="Created date",auto_now_add=True)
     Updated = models.DateTimeField(verbose_name="Updated date", auto_now=True)
 
     def __str__(self):
-        return f"user: {self.Project.ProjectName}"
+        return f"Project: {self.ProjectName}"
 
-class Quote(models.Model):
-    Project = models.ForeignKey(Project, verbose_name="Project", on_delete=models.CASCADE)
-    Supplier = models.ForeignKey(Supplier, verbose_name="Supplier", related_name="Supplier", on_delete=models.CASCADE)
-    QuoteName = models.CharField(max_length=50, verbose_name="Quote name")
-    Created = models.DateTimeField(verbose_name="Created date",auto_now_add=True)
-    Updated = models.DateTimeField(verbose_name="Updated date", auto_now=True)
-    fileUp = models.FileField(upload_to=PDFFile)
-    is_upload = models.BooleanField(default=False)
-
+class ItemCategory(models.Model):
+    Category = models.CharField(max_length=50, verbose_name="Category")
     def __str__(self):
-        return f"Quote {self.Quote.QuoteName} for {self.Quote.Project}"
+        return f"Category: {self.Category}"
 
-class Material(models.Model):
-    Quote = models.ForeignKey(Quote, verbose_name="Project", on_delete=models.CASCADE)
-    Supplier = models.ForeignKey(Supplier, verbose_name="Supplier", on_delete=models.CASCADE)
+class ItemView(models.Model):
+    View = models.CharField(max_length=50, verbose_name="View")
+    def __str__(self):
+        return f"View: {self.View}"
+
+class ItemUnit(models.Model):
+    Unit = models.CharField(max_length=50, verbose_name="Units")
+    def __str__(self):
+        return f"Units: {self.Unit}"
+    
+class Item(models.Model):
     Name = models.CharField(max_length=50, verbose_name="Name")
-    Qty = models.IntegerField(verbose_name="Qty", blank=True, null=True)
+    ItemCategory = models.ForeignKey(ItemCategory, on_delete=models.CASCADE)
+    ItemView = models.ForeignKey(ItemView, on_delete=models.CASCADE)
+    ItemUnit = models.ForeignKey(ItemUnit, on_delete=models.CASCADE)
     Created = models.DateTimeField(verbose_name="Created date",auto_now_add=True)
     Updated = models.DateTimeField(verbose_name="Updated date", auto_now=True)
 
     def __str__(self):
-        return f"Material: {self.Material.Name}"
+        return f"Item: {self.Name}"
+    
+class QuoteHeader(models.Model):
+    Supplier = models.ManyToManyField(Supplier)
+    Project = models.ForeignKey(Project, verbose_name="Project", on_delete=models.CASCADE)
+    QuoteName = models.CharField(max_length=50, verbose_name="Quote name")
+    FileUp = models.FileField(upload_to='PDFFile',blank=True, null=True)
+    IsUpload = models.BooleanField(default=False)
+    Total = models.DecimalField(max_digits=10,decimal_places=2,blank=True, null=True)
+    Quantity = models.IntegerField(blank=True, null=True)
+    IsActive = models.BooleanField(default=True)
+    Created = models.DateTimeField(verbose_name="Created date",auto_now_add=True)
+    Updated = models.DateTimeField(verbose_name="Updated date", auto_now=True)
+
+    def __str__(self):
+        return f"Quote header of {self.QuoteName} for {self.Project}"
+
+class QuoteBody(models.Model):
+    QuoteHeader = models.ForeignKey(QuoteHeader, on_delete=models.CASCADE)
+    Item = models.ForeignKey(Item, on_delete=models.CASCADE,blank=True, null=True)
+    Subtotal = models.DecimalField(max_digits=10,decimal_places=2)
+    QuantityByItems = models.IntegerField()
+
+    def __str__(self):
+        return f"Quote body of {self.Item} for {self.QuoteHeader.QuoteName}"
