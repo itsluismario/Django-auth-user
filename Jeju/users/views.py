@@ -103,7 +103,7 @@ def email_verification(request):
 """"""""""""
 def index(request):
     login_user = request.user.is_authenticated
-    return render(request,'dashboard.html', {
+    return render(request,'users/create_proyect.html', {
         'login_user': login_user,
     })
 

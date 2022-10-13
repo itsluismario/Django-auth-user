@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, PasswordResetForm
 from users.models import User
 
 class UserSignUpForm(UserCreationForm):
@@ -47,7 +47,7 @@ class UserSignUpForm(UserCreationForm):
         return cd
 
 class UserLoginForm(forms.ModelForm):
-    email = forms.CharField(max_length=32,required=True,
+    email = forms.EmailField(max_length=32,required=True,
                                widget= forms.TextInput
                                (attrs={'type':'email','class':'form-control',
     				                   'name':'email','placeholder':'federer@ejemplo.com',
@@ -65,9 +65,6 @@ class UserLoginForm(forms.ModelForm):
         model = User
         fields = ('email','password')
 
-
-from django.contrib.auth.forms import PasswordResetForm
-
 class UserPasswordResetForm(PasswordResetForm):
     def __init__(self, *args, **kwargs):
         super(UserPasswordResetForm, self).__init__(*args, **kwargs)
@@ -79,4 +76,3 @@ class UserPasswordResetForm(PasswordResetForm):
         'name': 'email',
         'data-msg':'Correo inválido.'
         }))
-
