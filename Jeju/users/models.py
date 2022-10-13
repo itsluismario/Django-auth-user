@@ -80,7 +80,7 @@ class QuoteHeader(models.Model):
         return f"Quote header of {self.QuoteName} for {self.Project}"
 
 def quote_directory_path(instance, filename):
-    # file will be uploaded to MEDIA_ROOT / user_<id>/<filename>
+    # file will be uploaded to MEDIA_ROOT / user_<id>/project_<nameproject>/<filename>
     return 'user_{0}/project_{1}/{2}'.format(instance.user.id,instance.user.project, filename)
 
 class QuoteFile(models.Model):
