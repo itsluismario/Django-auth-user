@@ -1,8 +1,1 @@
-**Julo**
-
-This a new way to organize your purchases
-
-Reminds:
-- Setting up the sign up page
-- Set form.py       
-
+Jeju is a tracking plataform for your quotes and pruchases of your building projects. It uses AI to forecast your future purchases. 
