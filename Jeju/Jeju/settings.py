@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'Jeju',
-    'core',
+    'users',
     'crispy_forms'
 ]
 
@@ -128,7 +128,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'galery/')
 MEDIA_URL = '/'
 
-AUTH_USER_MODEL = 'core.User'
+AUTH_USER_MODEL = 'users.User'
 
 # AUTHENTICATION_BACKENDS
 AUTHENTICATION_BACKENDS = (
@@ -137,7 +137,7 @@ AUTHENTICATION_BACKENDS = (
     )
 
 #gmail_send/settings.py
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = 'django.users.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'holaluismario@gmail.com'
 EMAIL_HOST_PASSWORD = 'gnqvrncvwoaxdnbd' #past the key or password app here

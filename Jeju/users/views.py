@@ -1,9 +1,9 @@
 from django.shortcuts import render
-from core.models import UserProfile, User
+from users.models import UserProfile, User
 
 # Create your views here.
 from django.contrib.auth import authenticate, logout as do_logout, login as do_login
-from core.forms import UserSignUpForm, UserLoginForm
+from users.forms import UserSignUpForm, UserLoginForm
 from django.shortcuts import redirect
 
 from django.urls import reverse
@@ -48,7 +48,6 @@ def user_signup(request):
 
     form = UserSignUpForm()
     # If the user is logged in send to "/"
-
     if request.method == "POST":
         user_form = UserSignUpForm(data=request.POST)
 

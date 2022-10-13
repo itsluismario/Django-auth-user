@@ -80,7 +80,7 @@
             <div class="text-center">
               <div class="mb-5">
                 <h1 class="display-5">Crea tu cuenta</h1>
-                <p>Ya tienes una cuenta? <a class="link" href="{% url 'core:login' %}">Inicia Aquí</a></p>
+                <p>Ya tienes una cuenta? <a class="link" href="{% url 'users:login' %}">Inicia Aquí</a></p>
               </div>
             </div>
             <form method="POST"  class="js-validate needs-validation" novalidate>
@@ -118,6 +118,7 @@
                 <label class="form-label" for="signupSrEmail">Email</label>
                 {{ form.email }}
                 <small>{% if errors %}{{errors.email}}{% endif %}</small>
+                <small>{% if notUniqueEmail %}{{notUniqueEmail}}{% endif %}</small>
               </div>
               <!-- End Form -->
 
