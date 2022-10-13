@@ -145,5 +145,8 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'default from email'
 
+#it allows to avoid an error in the terminal
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+
+#it allows to style the reset password confirm form
 CRISPY_TEMPLATE_PACK = 'bootstrap4'

@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from core.models import UserProfile
+from core.models import UserProfile, User
 
 # Create your views here.
 from django.contrib.auth import authenticate, logout as do_logout, login as do_login
@@ -53,24 +53,31 @@ def user_signup(request):
         user_form = UserSignUpForm(data=request.POST)
 
         if user_form.is_valid():
-
             user = user_form.save(commit=False)
             user.username = user.email
             user.first_name = user.first_name
             user.last_name = user.last_name
-
-            if user.save():
-                return render(request,'signup.html',{
-                     'form':form
-                })
-            else:
+            # If there is not user, create one User model and UserProfile, and save them
+            if not User.objects.filter(email = user.email):
                 user.set_password(user.password)
                 user.save()
-                userprofile = UserProfile.objects.create(user=user)
+                UserProfile.objects.create(User=user)
                 do_login(request, user, backend='django.contrib.auth.backends.ModelBackend')
                 # Redirect to a success page.
                 return redirect("/index")
+            # If there is one found, send again the form and show an error message
+            # There are gonna be two variables in the section of email error. One for the "notUniqueEmail" and 
+            # another for general errors "user_form.errors.email"
+            elif User.objects.filter(email = user.email):
+                return render(request,'signup.html',{
+                     'form':form,
+                     'notUniqueEmail': "Ya existe un usuario con ese email" 
+                })
         else:
+            """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+            """""""Future feature: in case the user make a mistake in the form,"""""""""""
+            """""""add an option that she does not have to write everything again"""""""""
+            """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
             return render(request,'signup.html',{
                 'form':form,
                 'errors':user_form.errors
