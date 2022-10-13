@@ -4,10 +4,6 @@ from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 
-
-def PDFFile(instance,filename):
-    return 'products/{0}/{1}'.format(instance.name,filename)
-
 class User(AbstractUser):
     email = models.EmailField('email_address', unique=True)
     USERNAME_FIELD = 'email'
@@ -83,11 +79,22 @@ class QuoteHeader(models.Model):
     def __str__(self):
         return f"Quote header of {self.QuoteName} for {self.Project}"
 
+def quote_directory_path(instance, filename):
+    # file will be uploaded to MEDIA_ROOT / user_<id>/<filename>
+    return 'user_{0}/project_{1}/{2}'.format(instance.user.id,instance.user.project, filename)
+
+class QuoteFile(models.Model):
+    File = models.FileField(upload_to = quote_directory_path)
+
 class QuoteBody(models.Model):
     QuoteHeader = models.ForeignKey(QuoteHeader, on_delete=models.CASCADE)
     Item = models.ForeignKey(Item, on_delete=models.CASCADE,blank=True, null=True)
     Subtotal = models.DecimalField(max_digits=10,decimal_places=2)
     QuantityByItems = models.IntegerField()
+    QuoteFile = models.ForeignKey(QuoteFile, on_delete=models.CASCADE,blank=True, null=True)
 
     def __str__(self):
         return f"Quote body of {self.Item} for {self.QuoteHeader.QuoteName}"
+
+
+    
