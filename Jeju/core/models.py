@@ -16,14 +16,14 @@ class User(AbstractUser):
 
 class UserProfile(models.Model):
     User = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    CompanyName = models.CharField(max_length=50, verbose_name="Company name")
+    CompanyName = models.CharField(max_length=50, verbose_name="Company name", blank=True, null=True)
     PhoneNumber = models.IntegerField(verbose_name="Phone number", blank=True, null=True)
 
     def __str__(self):
         return f"user: {self.User.username}"
 
 class Supplier(models.Model):
-    Builder = models.ForeignKey(UserProfile, verbose_name="Builder", related_name="BuilderContact", on_delete=models.CASCADE)
+    Builder = models.ManyToManyField(User, verbose_name="Builder", related_name="BuilderContact")
     CompanyName = models.CharField(max_length=50, verbose_name="Company name")
     Token = models.CharField(max_length=50, blank=True, null=True)
     FirstName = models.CharField(max_length=50, verbose_name="First name")
@@ -35,7 +35,7 @@ class Supplier(models.Model):
         return f"user: {self.Supplier.CompanyName}"
 
 class Project(models.Model):
-    Builder = models.ForeignKey(UserProfile, verbose_name="Builder", related_name="BuilderContact", on_delete=models.CASCADE)
+    Builder = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     ProjectName = models.CharField(max_length=50, verbose_name="Project name")
     Created = models.DateTimeField(verbose_name="Created date",auto_now_add=True)
     Updated = models.DateTimeField(verbose_name="Updated date", auto_now=True)

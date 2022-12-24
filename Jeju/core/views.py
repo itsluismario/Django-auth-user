@@ -45,7 +45,6 @@ def user_login(request):
 """""""Sign Up"""""""
 """""""""""""""""""""
 def user_signup(request):
-
     form = UserSignUpForm()
     # If the user is logged in send to "/"
 
@@ -66,7 +65,8 @@ def user_signup(request):
             else:
                 user.set_password(user.password)
                 user.save()
-                userprofile = UserProfile.objects.create(user=user)
+                user_profile = UserProfile(User=user)
+                user_profile.save()
                 do_login(request, user, backend='django.contrib.auth.backends.ModelBackend')
                 # Redirect to a success page.
                 return redirect("/index")
