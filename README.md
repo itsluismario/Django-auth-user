@@ -52,8 +52,6 @@ Hecho por [@itsluismario](https://twitter.com/itsluismario)
     deactivate
     ```
 
-    El sitio estará disponible en https://shopi-react-vite.netlify.app.
-
 
 ### 🚀 Logros
 
